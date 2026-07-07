@@ -48,12 +48,15 @@ ONLY the spec. So the spec must stand alone. Produce it on the strong tier, high
 2. **Scope it to ONE vertical slice** — a complete path through all the layers it touches, independently
    verifiable — not a broad horizontal feature. Narrow enough to fit a cheap subagent's context.
 3. **Ground every claim in `file:line` — query the codebase INDEX first, don't grep-and-read broadly.**
-   Use the code index to locate exact signatures + call sites: `codebase-memory-mcp` (`search_graph`,
-   `get_code_snippet`, `trace_path`, `get_architecture`) if the repo is indexed, else `search_code` /
-   targeted grep. Broad file-reading is slow and is where PLAN's cost *and* hallucinated signatures come
-   from — the index gives exact ranges cheaply. Paste the EXACT snippets into the spec. If you can't
-   ground a claim, the subagent must not act on it. The spec must carry every signature the executor
-   needs, so it never re-reads the codebase or guesses.
+   **First check whether an index actually exists** — don't assume one: `codebase-memory-mcp`
+   → `list_projects` / `index_status` (look for `status: ready`).
+   - **Indexed →** use the graph to locate exact signatures + call sites: `search_graph`,
+     `get_code_snippet`, `trace_path`, `get_architecture`. It gives exact ranges cheaply.
+   - **Not indexed →** either `index_repository` first (worth it for a big/repeated task) or fall back to
+     `search_code` / targeted grep.
+   Broad file-reading is slow and is where PLAN's cost *and* hallucinated signatures come from. Paste the
+   EXACT snippets into the spec. If you can't ground a claim, the subagent must not act on it. The spec
+   must carry every signature the executor needs, so it never re-reads the codebase or guesses.
 4. **State the success criterion as a red-capable command** — one runnable test / curl / script that goes
    RED if the implementation is wrong. This is the spec's definition of done.
 5. **Include, briefly:** one sentence of *why* (the goal, so the subagent optimizes the right thing); the
