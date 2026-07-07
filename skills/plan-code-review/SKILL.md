@@ -19,6 +19,10 @@ on the strong model, with equal correctness and (usually) cleaner code.
 | **DELEGATE / execute** | **Sonnet** | **low** | Token-heavy; mechanical once the spec is tight — the big quota saving |
 | **REVIEW** | **Sonnet** | **high** | Validated to match a strong-model review at ~5× less quota (give the weaker reviewer the reasoning budget) |
 
+**Effort caveat:** `high` is the sweet spot for the strong tier. `xhigh`/`max` often *overthinks* — it
+second-guesses itself into a worse result and burns more quota (on the FrontierCode curve Opus at `max`
+scores *below* `xhigh`). Don't default to max; reach for it only on genuinely gnarly reasoning.
+
 ## Who picks which model
 
 - **The strong tier for PLAN (Opus vs Fable) is the USER's choice**, set via `/model` or fast mode. You
@@ -26,7 +30,8 @@ on the strong model, with equal correctness and (usually) cleaner code.
   genuinely frontier-hard plan. If a plan looks that hard (or an Opus plan reads weak), **pause and flag**
   "this is hard enough that Fable would help — want to switch?" — never assume Fable.
 - **You pick the SUBAGENT models: Sonnet for both execute and review.** Never Opus/Fable in a subagent
-  (defeats the purpose), never Haiku (its only fit is trivial work, which isn't routed at all).
+  (defeats the purpose). Haiku ONLY for **scoped, read-only grunt work** — grep / search / scouting from a
+  tight brief — never for writing or reviewing code.
 - **Only PLAN runs on the strong tier.** Sonnet-high review was measured to match a strong-model review
   (same correctness, comparable simplification) at roughly a fifth of the quota — so review does NOT need
   the strong model.
@@ -45,6 +50,8 @@ ONLY the spec. So the spec must stand alone. Produce it on the strong tier, high
 
 1. **Resolve every open question yourself** with a recommended answer — hand the subagent decisions, not
    things to figure out. A spec full of "TBD" forces round-trips (which cost more quota than they save).
+   **Separate known from assumed: name the 1–3 load-bearing unknowns** — the ones that, if wrong, change
+   the whole shape of the solution — so the executor knows where the real risk sits.
 2. **Scope it to ONE vertical slice** — a complete path through all the layers it touches, independently
    verifiable — not a broad horizontal feature. Narrow enough to fit a cheap subagent's context.
 3. **Ground every claim in `file:line` — query the codebase INDEX first, don't grep-and-read broadly.**
@@ -59,9 +66,12 @@ ONLY the spec. So the spec must stand alone. Produce it on the strong tier, high
    must carry every signature the executor needs, so it never re-reads the codebase or guesses.
 4. **State the success criterion as a red-capable command** — one runnable test / curl / script that goes
    RED if the implementation is wrong. This is the spec's definition of done.
-5. **Include, briefly:** one sentence of *why* (the goal, so the subagent optimizes the right thing); the
+5. **Make the plan expect trouble** — a happy-path spec strands the cheap executor on the hard 20%. For
+   each non-trivial step give: what you'd see if it worked, the **likeliest failure + its countermove**,
+   when to stop-and-report (not improvise), and to flag anything it couldn't verify.
+6. **Include, briefly:** one sentence of *why* (the goal, so the subagent optimizes the right thing); the
    named test seam; and which tools/skills the subagent should use.
-6. **Prune before handing off:** only keep a new seam if the execution needs **two** real adapters (one
+7. **Prune before handing off:** only keep a new seam if the execution needs **two** real adapters (one
    adapter = hypothetical, drop it); only spell out an architectural decision if it's hard-to-reverse AND
    surprising-without-context AND a real trade-off (else it's just implementation, cut it).
 
@@ -99,7 +109,8 @@ match a strong review):
   That's another reason not to route small tasks (the cache/context cost of forking can exceed the
   model-tier saving) and to keep the spec tight — only what the executor actually needs.
 - **Self-contained spec or don't route** — if you can't spec it crisply, it isn't ready to hand off.
-- **Strong model on PLAN only; Sonnet executes + reviews. No Haiku, no external APIs, ever.**
+- **Strong model on PLAN only; Sonnet executes + reviews. Haiku only for read-only grep/scouting. No
+  external APIs, ever.**
 
 ## Verification
 
