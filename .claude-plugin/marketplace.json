@@ -1,11 +1,12 @@
 {
   "name": "model-routing",
+  "description": "Smart plan, cheap build — a Claude Code skill that cuts subscription quota by keeping the strong model for planning and handing execution + review to Sonnet.",
   "owner": { "name": "Rickard Nyberg" },
   "plugins": [
     {
       "name": "model-routing",
       "source": "./",
-      "description": "Smart plan, cheap build: keep the strong model for planning, hand execution + review to Sonnet."
+      "description": "Route substantial build work as PLAN (strong model) -> EXECUTE (Sonnet) -> REVIEW (Sonnet)."
     }
   ]
 }
