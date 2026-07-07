@@ -1,5 +1,5 @@
 ---
-name: model-routing
+name: plan-code-review
 description: "Run substantial build/change work as PLAN (strong model) → DELEGATE execution (Sonnet) → REVIEW (Sonnet) to keep the intelligence where it matters (the plan) while cutting quota on a Claude Code SUBSCRIPTION. Use BY DEFAULT when implementing, refactoring, migrating, or transforming something bulky enough to spec and hand off — a multi-file feature, a repetitive edit across many sites, a big migration, a long document. Skip for small, quick, or exploratory tasks (handoff overhead outweighs the win). All-Claude only — never delegate to OpenAI/Codex/any external API."
 ---
 

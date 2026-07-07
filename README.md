@@ -1,4 +1,4 @@
-# model-routing
+# plan-code-review
 
 A Claude Code skill that runs substantial build work as **PLAN → EXECUTE → REVIEW** across model tiers —
 keeping the *intelligence* on the strong model (the plan) while handing the *bulk* (writing the code) and
@@ -45,15 +45,15 @@ DONE = red-capable test green + review clean
 
 **As a plugin (recommended):**
 ```
-/plugin marketplace add <your-github-user>/model-routing
-/plugin install model-routing@model-routing
+/plugin marketplace add RINY001/plan-code-review-skill
+/plugin install plan-code-review@plan-code-review
 /reload-plugins
 ```
 
 **Or just copy the skill folder:**
 ```
-git clone https://github.com/<your-github-user>/model-routing
-cp -r model-routing/skills/model-routing ~/.claude/skills/
+git clone https://github.com/RINY001/plan-code-review-skill
+cp -r plan-code-review-skill/skills/plan-code-review ~/.claude/skills/
 ```
 
 ## Use
