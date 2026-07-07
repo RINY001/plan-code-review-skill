@@ -66,9 +66,11 @@ ONLY the spec. So the spec must stand alone. Produce it on the strong tier, high
    must carry every signature the executor needs, so it never re-reads the codebase or guesses.
 4. **State the success criterion as a red-capable command** — one runnable test / curl / script that goes
    RED if the implementation is wrong. This is the spec's definition of done.
-5. **Make the plan expect trouble** — a happy-path spec strands the cheap executor on the hard 20%. For
-   each non-trivial step give: what you'd see if it worked, the **likeliest failure + its countermove**,
-   when to stop-and-report (not improvise), and to flag anything it couldn't verify.
+5. **State the real requirements + operating context** — concurrency, scale, external deps, failure-prone
+   integrations, accuracy constraints. A capable executor infers the failure modes from that (in A/B tests
+   Sonnet added a lock for a concurrent counter, and handled every semver edge, purely from context — with
+   NO enumerated countermoves). **Context-completeness is the lever, not failure-enumeration:** don't pad
+   the spec with "likely failure X → do Y" — it doesn't change outcomes and invites over-defensive code.
 6. **Include, briefly:** one sentence of *why* (the goal, so the subagent optimizes the right thing); the
    named test seam; and which tools/skills the subagent should use.
 7. **Prune before handing off:** only keep a new seam if the execution needs **two** real adapters (one
