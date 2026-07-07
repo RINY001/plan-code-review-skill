@@ -1,0 +1,11 @@
+{
+  "name": "model-routing",
+  "owner": { "name": "Rickard Nyberg" },
+  "plugins": [
+    {
+      "name": "model-routing",
+      "source": "./",
+      "description": "Smart plan, cheap build: keep the strong model for planning, hand execution + review to Sonnet."
+    }
+  ]
+}

@@ -1,0 +1,6 @@
+{
+  "name": "model-routing",
+  "description": "Route substantial build work as PLAN (strong model) -> EXECUTE (Sonnet) -> REVIEW (Sonnet) to cut Claude Code subscription quota while keeping the plan smart.",
+  "version": "0.1.0",
+  "author": { "name": "Rickard Nyberg" }
+}
