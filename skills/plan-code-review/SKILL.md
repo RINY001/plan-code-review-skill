@@ -47,9 +47,13 @@ ONLY the spec. So the spec must stand alone. Produce it on the strong tier, high
    things to figure out. A spec full of "TBD" forces round-trips (which cost more quota than they save).
 2. **Scope it to ONE vertical slice** — a complete path through all the layers it touches, independently
    verifiable — not a broad horizontal feature. Narrow enough to fit a cheap subagent's context.
-3. **Ground every claim in `file:line`** (or a table row / exact path / exact signature). If you can't
-   ground it, the subagent must not act on it. On a real codebase, put the EXACT existing signatures the
-   executor needs into the spec, so it never re-reads the codebase or guesses.
+3. **Ground every claim in `file:line` — query the codebase INDEX first, don't grep-and-read broadly.**
+   Use the code index to locate exact signatures + call sites: `codebase-memory-mcp` (`search_graph`,
+   `get_code_snippet`, `trace_path`, `get_architecture`) if the repo is indexed, else `search_code` /
+   targeted grep. Broad file-reading is slow and is where PLAN's cost *and* hallucinated signatures come
+   from — the index gives exact ranges cheaply. Paste the EXACT snippets into the spec. If you can't
+   ground a claim, the subagent must not act on it. The spec must carry every signature the executor
+   needs, so it never re-reads the codebase or guesses.
 4. **State the success criterion as a red-capable command** — one runnable test / curl / script that goes
    RED if the implementation is wrong. This is the spec's definition of done.
 5. **Include, briefly:** one sentence of *why* (the goal, so the subagent optimizes the right thing); the
@@ -88,6 +92,9 @@ match a strong review):
 
 - **Always review** — routing without review just ships a cheap model's mistakes faster.
 - **Don't over-route** — a subagent for a two-line edit is net-negative. When unsure, do it yourself.
+- **A fork loses the cache** — a subagent starts fresh, so it can't reuse the main session's prompt cache.
+  That's another reason not to route small tasks (the cache/context cost of forking can exceed the
+  model-tier saving) and to keep the spec tight — only what the executor actually needs.
 - **Self-contained spec or don't route** — if you can't spec it crisply, it isn't ready to hand off.
 - **Strong model on PLAN only; Sonnet executes + reviews. No Haiku, no external APIs, ever.**
 

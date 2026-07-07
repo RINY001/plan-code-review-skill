@@ -31,7 +31,7 @@ it's overkill on small/exploratory tasks (the skill skips those automatically).
 ```
 PLAN   [strong model: Opus / Fable · high effort]  ->  a spec written to disk
        - resolve every open question yourself (no round-trips)
-       - ground every signature in file:line
+       - ground every signature in file:line (query the codebase index first)
        - success = a red-capable test (goes RED if wrong)
                     |  context fork: the subagent sees ONLY the spec
 EXECUTE [Sonnet · low effort]  ->  writes the code, test-first (red -> green)
